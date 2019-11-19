@@ -10,18 +10,13 @@ import ProgressBar from './progress-bar'
 
 
 class App extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             tickets: [],
             originalTickets: [],
             removeResponse: '',
         }
-        this.handleTicketSubmission = this.handleTicketSubmission.bind(this)
-        this.handlePriorityClick = this.handlePriorityClick.bind(this)
-        this.handleSearch = this.handleSearch.bind(this)
-        this.handleRemove = this.handleRemove.bind(this)
-        this.handleCheck = this.handleCheck.bind(this)
     }
     componentDidMount() {
         axios.get('http://dct-api-data.herokuapp.com/tickets?api_key=14ba4dca61c726c6')
@@ -30,18 +25,18 @@ class App extends React.Component {
                 this.setState(() => ({ tickets: response.data, originalTickets: response.data }))
             })
     }
-    handleTicketSubmission(ticket) {
+    handleTicketSubmission = (ticket) => {
         this.setState(prevState => ({
             tickets: prevState.tickets.concat(ticket),
             originalTickets: prevState.originalTickets.concat(ticket)
         }))
     }
-    handleSearch(value) {
+    handleSearch = (value) => {
         this.setState(prevState => ({
             tickets: prevState.originalTickets.filter(ticket => ticket.ticket_code.includes(value.toLowerCase()))
         }))
     }
-    handlePriorityClick(value) {
+    handlePriorityClick = (value) => {
         if (value !== 'all') {
             this.setState(prevState => ({
                 tickets: prevState.originalTickets.filter(ticket => ticket.priority === value.toLowerCase())
@@ -52,7 +47,7 @@ class App extends React.Component {
             }))
         }
     }
-    handleRemove(ticket_code) {
+    handleRemove = (ticket_code) => {
         console.log(ticket_code)
         axios.delete(`https://cors-anywhere.herokuapp.com/http://dct-api-data.herokuapp.com/tickets/${ticket_code}?api_key=14ba4dca61c726c6`)
             .then(response => {
@@ -61,13 +56,13 @@ class App extends React.Component {
                 }))
                 axios.get('http://dct-api-data.herokuapp.com/tickets?api_key=14ba4dca61c726c6')
                     .then(response => {
-                        console.log(response.data)
+                        
                         this.setState(() => ({ tickets: response.data, originalTickets: response.data }))
                     })
             })
                 
     }
-    handleCheck(ischeck, ticket_code) {
+    handleCheck = (ischeck, ticket_code) => {
         console.log(ischeck)
         const data = {
             "status": "close"
@@ -87,12 +82,7 @@ class App extends React.Component {
                 .then(response => {
                     const ticket = this.state.tickets.find(ticketItem => ticketItem.id === response.data.id)
                     ticket.status = response.data.status
-                    this.setState(() => ({}))
-                    // axios.get('http://dct-api-data.herokuapp.com/tickets?api_key=14ba4dca61c726c6')
-                    //     .then(response => {
-                    //         console.log(response.data)
-                    //         this.setState(() => ({ tickets: response.data, originalTickets: response.data }))
-                    //     })
+                    this.setState(() => ({ticket}))
                 })
         }
     }
@@ -111,7 +101,7 @@ class App extends React.Component {
             <div className="container">
                 <br /> <br />
                         <div className="row">
-                            <div className="col-md-9">
+                            <div className="col-md-8">
                                 <h1 >Ticket Master </h1>
                                 <div className='row'>
                                     <div className='col-sm-4.4'>
@@ -132,13 +122,13 @@ class App extends React.Component {
                                 </div>
                             </div>
 
-                            <div className='col-md-3 offeset-sm-left'>
+                            <div className='col-md-4 offeset-sm-left'>
                                 <br/><br/><br/><br/><br/><br/><br/><br/><br/>
                                 <TicketForm handleTicketSubmission={this.handleTicketSubmission} />
                             </div>
                         </div><br /><br />
             <div className='row'>
-                <div className='col-md-3 offset-sm-1'>
+                <div className='col-md-3 offset-sm-0'>
                 <PieChart high={high.length} medium={medium.length} low={low.length} />
                 </div>
 
@@ -150,45 +140,5 @@ class App extends React.Component {
         )
     }
 }
+
 export default App
-
-// import React from 'react'
-// import Axios from 'axios';
-
-// class App extends React.Component{
-//     constructor(){
-//         super()
-//         this.state ={
-//             products:[],
-//             input:''
-//         }
-//         this.handleChange = this.handleChange.bind(this)
-//     }
-//     componentDidMount(){
-//         Axios.get('http://dct-api-data.herokuapp.com/products.json?api_key=14ba4dca61c726c6')
-//         .then(response => {
-//             this.setState(() =>({ products:response.data}))
-//         })
-//     }
-//     handleChange(e) {
-//         const input = e.target.value
-//         this.setState(() => ({input}))
-        
-//     }
-//     render(){
-        
-//         return(
-//             <div>
-//                 <label>
-//                     search:
-//                     <input type="text" placeholder='search by procuct' value={this.state.input} onChange={this.handleChange}/>
-//                 </label><br />
-//                 <div>
-//                     <p>{this.state.products.filter(product => this.state.input === product.name)}</p>
-//                 </div>
-//             </div>
-
-//         )
-//     }
-// }
-// export default App

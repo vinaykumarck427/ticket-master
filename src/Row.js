@@ -24,13 +24,13 @@ class TicketRow extends React.Component {
 
         return (
             <tr>
-                <td scope='row'>{this.props.ticket.ticket_code}</td>
-                <td scope='row'>{this.props.ticket.name}</td>
-                <td scope='row'>{this.props.ticket.department}</td>
-                <td scope='row'>{this.props.ticket.priority}</td>
-                <td scope='row'>{this.props.ticket.message}</td>
-                <td scope='row'><div className='form-check'><input className='form-check-input' type='checkbox' value={this.state.accept} checked={this.state.accept} onChange={this.handleChange} /><label class='form-check-label'>{this.props.ticket.status}</label></div></td>
-                <td scope='row'><input className='btn btn-outline-success' type='button' value='Remove' onClick={this.handleButton} /></td>
+                <td >{this.props.ticket.ticket_code}</td>
+                <td >{this.props.ticket.name}</td>
+                <td >{this.props.ticket.department}</td>
+                <td >{this.props.ticket.priority}</td>
+                <td >{this.props.ticket.message}</td>
+                <td ><div className='form-check'><input className='form-check-input' type='checkbox' value={this.state.accept} checked={this.state.accept} onChange={this.handleChange} /><label class='form-check-label'>{this.props.ticket.status}</label></div></td>
+                <td ><input className='btn btn-outline-success' type='button' value='Remove' onClick={this.handleButton} /></td>
             </tr>
         )
     }

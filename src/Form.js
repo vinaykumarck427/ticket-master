@@ -2,8 +2,8 @@ import React from 'react'
 import axios from 'axios'
 
 class TicketForm extends React.Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state ={
             name: '',
             department:'',
@@ -23,29 +23,25 @@ class TicketForm extends React.Component{
             ],
             errors:''
         }
-        this.handleDepartment=this.handleDepartment.bind(this)
-        this.handlePriority = this.handlePriority.bind(this)
-        this.handleSubmit=this.handleSubmit.bind(this)
-        this.handleReset=this.handleReset.bind(this)
     }
     hanldeName = (e) => {
         const name = e.target.value
         this.setState(() =>({name}))
     }
-    handleDepartment(e){
+    handleDepartment = (e) => {
         const department = e.target.value
         this.setState(() =>({department}))
     }
-    handlePriority(e){
+    handlePriority = (e) => {
         const priority=e.target.value
         this.setState(() => ({priority}))
     }
-    handleMessage(e){
+    handleMessage = (e) => {
         const message=e.target.value
         this.setState(()=>({message}))
     }
    
-    handleSubmit(e){
+    handleSubmit = (e) => {
         e.preventDefault()
         const formData = {
             name:this.state.name,
@@ -73,10 +69,7 @@ class TicketForm extends React.Component{
         }
         })
     }
-    // resetForm(){
-        
-    // }
-    handleReset(e) {
+    handleReset = (e) => {
         e.preventDefault()
         // this.resetForm()
         this.setState(() => ({
@@ -91,7 +84,7 @@ class TicketForm extends React.Component{
         return(
                 <form className='form-row'>
                     <fieldset>
-                        <div className='form-group row'>
+                        <div className='form-group'>
                         <legend>Add Ticket</legend>
                             <label className='col-sm-4 col-form-label'>name</label>
                             <div className='col-sm-8'>
